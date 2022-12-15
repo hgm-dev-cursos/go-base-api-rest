@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/henriquegmendes/go-base-api-rest/client"
 	"github.com/henriquegmendes/go-base-api-rest/handler"
+	"github.com/henriquegmendes/go-base-api-rest/repository"
 	"github.com/henriquegmendes/go-base-api-rest/server/helpers/router"
 	"log"
 )
@@ -14,7 +15,8 @@ func InitServer() {
 	internalRouter := router.NewInternalRouter(ginServer, "/api")
 
 	ctx := context.Background()
-	_, _ = client.NewMongoClient(ctx)
+	mongoDep, _ := client.NewMongoClient(ctx)
+	_ = repository.NewExampleRepository(mongoDep.ExampleDatabase)
 
 	handler.LoadExampleRoutes(internalRouter)
 
