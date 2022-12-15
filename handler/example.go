@@ -3,8 +3,10 @@ package handler
 import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
+	internalErrors "github.com/henriquegmendes/go-base-api-rest/errors"
 	"github.com/henriquegmendes/go-base-api-rest/server/helpers/router"
 	"io"
+	"net/http"
 )
 
 func LoadExampleRoutes(internalRouter router.InternalRouter) {
@@ -24,10 +26,10 @@ func Create(ctx *gin.Context) (*router.InternalResponse, error) {
 	var requestBody Request
 	err = json.Unmarshal(bodyBytes, &requestBody)
 	if err != nil {
-		return nil, err
+		return nil, internalErrors.NewApplicationError("invalid json body request", http.StatusBadRequest)
 	}
 
 	// call service...
 
-	return nil, nil
+	return router.NewInternalResponse(requestBody, http.StatusCreated), nil
 }
