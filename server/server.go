@@ -3,13 +3,15 @@ package server
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/henriquegmendes/go-base-api-rest/handler"
+	"github.com/henriquegmendes/go-base-api-rest/server/helpers/router"
 	"log"
 )
 
 func InitServer() {
 	ginServer := gin.Default()
+	internalRouter := router.NewInternalRouter(ginServer, "/api")
 
-	handler.LoadExampleRoutes(ginServer)
+	handler.LoadExampleRoutes(internalRouter)
 
 	err := ginServer.Run(":8000")
 	if err != nil {
