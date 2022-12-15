@@ -1,26 +1,21 @@
 package main
 
 import (
-	"fmt"
+	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 )
 
 func main() {
-	httpRouter := http.NewServeMux()
+	ginServer := gin.Default()
 
-	httpRouter.HandleFunc("/hello", func(writer http.ResponseWriter, request *http.Request) {
-		if request.Method != http.MethodGet {
-			writer.WriteHeader(http.StatusMethodNotAllowed)
-			return
-		}
-
-		fmt.Printf("Method being called -> " + request.Method)
-		writer.WriteHeader(201)
-		_, _ = writer.Write([]byte("Hello World!"))
+	ginServer.GET("/hello", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusCreated, gin.H{
+			"message": "Hello World",
+		})
 	})
 
-	err := http.ListenAndServe(":8000", httpRouter)
+	err := ginServer.Run(":8000")
 	if err != nil {
 		log.Fatalf("error to init server at PORT :8000. Error: %s", err.Error())
 	}
