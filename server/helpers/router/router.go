@@ -32,7 +32,6 @@ func (r *internalRouter) handle(internalHandler InternalHandler) gin.HandlerFunc
 		}
 
 		r.handleSuccessResponse(ctx, response)
-
 	}
 }
 
