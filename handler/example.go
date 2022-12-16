@@ -1,11 +1,10 @@
 package handler
 
 import (
-	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/henriquegmendes/go-base-api-rest/dependencies"
 	"github.com/henriquegmendes/go-base-api-rest/dtos/request"
-	internalErrors "github.com/henriquegmendes/go-base-api-rest/errors"
+	"github.com/henriquegmendes/go-base-api-rest/helpers"
 	"github.com/henriquegmendes/go-base-api-rest/server/helpers/router"
 	"github.com/henriquegmendes/go-base-api-rest/service"
 	"io"
@@ -31,9 +30,9 @@ func (h *exampleHandler) Create(ctx *gin.Context) (*router.InternalResponse, err
 	}
 
 	var requestBody request.ExampleRequest
-	err = json.Unmarshal(bodyBytes, &requestBody)
+	err = helpers.UnmarshalAndValidate(bodyBytes, &requestBody)
 	if err != nil {
-		return nil, internalErrors.NewApplicationError("invalid json body request", http.StatusBadRequest)
+		return nil, err
 	}
 
 	response, err := h.exampleService.Create(ctx, requestBody)

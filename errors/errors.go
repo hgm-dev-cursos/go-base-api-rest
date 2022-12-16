@@ -7,7 +7,7 @@ type ApplicationError struct {
 }
 
 type ErrorDetails struct {
-	Error  string `json:"error"`
+	Field  string `json:"field"`
 	Reason string `json:"reason"`
 }
 
