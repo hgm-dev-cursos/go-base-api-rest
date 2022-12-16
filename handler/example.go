@@ -5,6 +5,7 @@ import (
 	"github.com/henriquegmendes/go-base-api-rest/dependencies"
 	"github.com/henriquegmendes/go-base-api-rest/dtos/request"
 	"github.com/henriquegmendes/go-base-api-rest/helpers"
+	"github.com/henriquegmendes/go-base-api-rest/server/helpers/middlewares"
 	"github.com/henriquegmendes/go-base-api-rest/server/helpers/router"
 	"github.com/henriquegmendes/go-base-api-rest/service"
 	"io"
@@ -20,7 +21,9 @@ func LoadExampleRoutes(globalDeps *dependencies.GlobalDeps, internalRouter route
 		exampleService: globalDeps.ExampleService,
 	}
 
-	internalRouter.POST("/example", handler.Create)
+	//internalRouter.USE(middlewares.AuthMiddleware)
+
+	internalRouter.POST("/example", middlewares.AuthRouteMiddleware(handler.Create))
 }
 
 func (h *exampleHandler) Create(ctx *gin.Context) (*router.InternalResponse, error) {

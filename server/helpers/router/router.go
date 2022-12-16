@@ -23,6 +23,10 @@ func (r *internalRouter) POST(path string, handler InternalHandler) {
 	r.GinRouter.POST(r.BasePath+path, r.handle(handler))
 }
 
+func (r *internalRouter) USE(handler InternalMiddlewareHandler) {
+	r.GinRouter.Use(r.handleMiddleware(handler))
+}
+
 func (r *internalRouter) handle(internalHandler InternalHandler) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		response, err := internalHandler(ctx)
@@ -32,6 +36,19 @@ func (r *internalRouter) handle(internalHandler InternalHandler) gin.HandlerFunc
 		}
 
 		r.handleSuccessResponse(ctx, response)
+	}
+}
+
+func (r *internalRouter) handleMiddleware(internalMiddlewareHandler InternalMiddlewareHandler) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		err := internalMiddlewareHandler(ctx)
+		if err != nil {
+			r.handleApplicationError(ctx, err)
+			ctx.Abort()
+			return
+		}
+
+		ctx.Next()
 	}
 }
 
