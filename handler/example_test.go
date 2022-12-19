@@ -53,9 +53,9 @@ func Test_exampleHandler_Create(t *testing.T) {
 				},
 			},
 			wantStatus: 400,
-			wantResponse: internalErrors.ApplicationError{
+			wantResponse: response.ErrorResponse{
 				Message: "missing Authorization header",
-				Details: []internalErrors.ErrorDetails{},
+				Details: []response.ErrorDetailsResponse{},
 			},
 		},
 		{
@@ -76,9 +76,9 @@ func Test_exampleHandler_Create(t *testing.T) {
 				},
 			},
 			wantStatus: 401,
-			wantResponse: internalErrors.ApplicationError{
+			wantResponse: response.ErrorResponse{
 				Message: "invalid Authorization header",
-				Details: []internalErrors.ErrorDetails{},
+				Details: []response.ErrorDetailsResponse{},
 			},
 		},
 		{
@@ -99,9 +99,9 @@ func Test_exampleHandler_Create(t *testing.T) {
 				},
 			},
 			wantStatus: 400,
-			wantResponse: internalErrors.ApplicationError{
+			wantResponse: response.ErrorResponse{
 				Message: "validation error",
-				Details: []internalErrors.ErrorDetails{
+				Details: []response.ErrorDetailsResponse{
 					{
 						Field:  "name",
 						Reason: "required",
@@ -127,9 +127,9 @@ func Test_exampleHandler_Create(t *testing.T) {
 				},
 			},
 			wantStatus: 400,
-			wantResponse: internalErrors.ApplicationError{
+			wantResponse: response.ErrorResponse{
 				Message: "validation error",
-				Details: []internalErrors.ErrorDetails{
+				Details: []response.ErrorDetailsResponse{
 					{
 						Field:  "name",
 						Reason: "min",
@@ -171,7 +171,7 @@ func Test_exampleHandler_Create(t *testing.T) {
 				},
 			},
 			wantStatus:   500,
-			wantResponse: internalErrors.DefaultApplicationError,
+			wantResponse: internalErrors.DefaultApplicationError.ToErrorResponse(),
 		},
 		{
 			name: "Should return an application error response with 422 status code due to error being returned from service",
@@ -207,9 +207,9 @@ func Test_exampleHandler_Create(t *testing.T) {
 				},
 			},
 			wantStatus: 422,
-			wantResponse: internalErrors.ApplicationError{
+			wantResponse: response.ErrorResponse{
 				Message: "app error",
-				Details: []internalErrors.ErrorDetails{},
+				Details: []response.ErrorDetailsResponse{},
 			},
 		},
 		{

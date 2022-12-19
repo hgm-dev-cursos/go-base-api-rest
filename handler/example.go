@@ -26,6 +26,25 @@ func LoadExampleRoutes(globalDeps *dependencies.GlobalDeps, internalRouter route
 	internalRouter.POST("/example", middlewares.AuthRouteMiddleware(handler.Create))
 }
 
+// Create
+/**
+ * swagger:route POST /api/example Examples CreateExampleRequest
+ *
+ * Creates a new example based on request params
+ *
+ *	Consumes:
+ *  - application/json
+ *
+ *	Produces:
+ *	- application/json
+ *
+ * 	Responses:
+ * 		201: CreateExampleResponse
+ * 		400: ApplicationErrorResponse
+ *		401: ApplicationErrorResponse
+ * 		500: ApplicationErrorResponse
+ *
+ */
 func (h *exampleHandler) Create(ctx *gin.Context) (*router.InternalResponse, error) {
 	bodyBytes, err := io.ReadAll(ctx.Request.Body)
 	if err != nil {

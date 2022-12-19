@@ -1,0 +1,145 @@
+{
+  "swagger": "2.0",
+  "paths": {
+    "/api/example": {
+      "post": {
+        "description": "Creates a new example based on request params",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Examples"
+        ],
+        "operationId": "CreateExampleRequest",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Authorization header",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "Request to create a new example",
+            "name": "CreateExampleRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExampleRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/CreateExampleResponse"
+          },
+          "400": {
+            "$ref": "#/responses/ApplicationErrorResponse"
+          },
+          "401": {
+            "$ref": "#/responses/ApplicationErrorResponse"
+          },
+          "500": {
+            "$ref": "#/responses/ApplicationErrorResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ErrorDetailsResponse": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string",
+          "x-go-name": "Field"
+        },
+        "reason": {
+          "type": "string",
+          "x-go-name": "Reason"
+        }
+      },
+      "x-go-package": "github.com/henriquegmendes/go-base-api-rest/dtos/response"
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorDetailsResponse"
+          },
+          "x-go-name": "Details"
+        },
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        }
+      },
+      "x-go-package": "github.com/henriquegmendes/go-base-api-rest/dtos/response"
+    },
+    "Example": {
+      "description": "Example",
+      "type": "object",
+      "properties": {
+        "CreatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ID": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "UpdatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "x-go-package": "github.com/henriquegmendes/go-base-api-rest/models"
+    },
+    "ExampleRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "the name for this user",
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/henriquegmendes/go-base-api-rest/dtos/request"
+    },
+    "ExampleResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/henriquegmendes/go-base-api-rest/dtos/response"
+    }
+  },
+  "responses": {
+    "ApplicationErrorResponse": {
+      "description": "ApplicationErrorResponse",
+      "schema": {
+        "$ref": "#/definitions/ErrorResponse"
+      }
+    },
+    "CreateExampleResponse": {
+      "description": "CreateExampleResponse",
+      "schema": {
+        "$ref": "#/definitions/ExampleResponse"
+      }
+    }
+  }
+}

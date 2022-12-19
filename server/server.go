@@ -16,6 +16,7 @@ func InitServer() {
 	ginServer := gin.Default()
 	internalRouter := router.NewInternalRouter(ginServer, "/api")
 
+	handler.LoadSwaggerRoutes(ginServer)
 	handler.LoadExampleRoutes(globalDeps, internalRouter)
 
 	err := ginServer.Run(":8000")

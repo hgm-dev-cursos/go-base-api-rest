@@ -19,6 +19,10 @@ func NewInternalRouter(ginRouter *gin.Engine, basePath string) InternalRouter {
 	}
 }
 
+func (r *internalRouter) GET(path string, handler InternalHandler) {
+	r.GinRouter.GET(r.BasePath+path, r.handle(handler))
+}
+
 func (r *internalRouter) POST(path string, handler InternalHandler) {
 	r.GinRouter.POST(r.BasePath+path, r.handle(handler))
 }
@@ -55,11 +59,11 @@ func (r *internalRouter) handleMiddleware(internalMiddlewareHandler InternalMidd
 func (r *internalRouter) handleApplicationError(ctx *gin.Context, err error) {
 	var applicationError *internalErrors.ApplicationError
 	if errors.As(err, &applicationError) {
-		ctx.JSON(applicationError.StatusCode, applicationError)
+		ctx.JSON(applicationError.StatusCode, applicationError.ToErrorResponse())
 		return
 	}
 
-	ctx.JSON(http.StatusInternalServerError, internalErrors.DefaultApplicationError)
+	ctx.JSON(http.StatusInternalServerError, internalErrors.DefaultApplicationError.ToErrorResponse())
 }
 
 func (r *internalRouter) handleSuccessResponse(ctx *gin.Context, response *InternalResponse) {

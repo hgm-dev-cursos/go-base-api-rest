@@ -3,6 +3,7 @@ package router
 import "github.com/gin-gonic/gin"
 
 type InternalRouter interface {
+	GET(path string, handler InternalHandler)
 	POST(path string, handler InternalHandler)
 	USE(handler InternalMiddlewareHandler)
 }

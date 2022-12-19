@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+// Example
+// swagger:model
 type Example struct {
 	ID        primitive.ObjectID `bson:"_id"`
 	Name      string             `bson:"name"`
