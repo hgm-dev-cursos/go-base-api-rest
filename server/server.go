@@ -2,7 +2,9 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/henriquegmendes/go-base-api-rest/cfg"
 	"github.com/henriquegmendes/go-base-api-rest/dependencies"
 	"github.com/henriquegmendes/go-base-api-rest/handler"
 	"github.com/henriquegmendes/go-base-api-rest/server/helpers/router"
@@ -19,8 +21,9 @@ func InitServer() {
 	handler.LoadSwaggerRoutes(ginServer)
 	handler.LoadExampleRoutes(globalDeps, internalRouter)
 
-	err := ginServer.Run(":8000")
+	port := fmt.Sprintf(":%v", cfg.Env().Port)
+	err := ginServer.Run(port)
 	if err != nil {
-		log.Fatalf("error to init server at PORT :8000. Error: %s", err.Error())
+		log.Fatalf("error to init server at PORT %s. Error: %s", port, err.Error())
 	}
 }

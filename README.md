@@ -2,7 +2,12 @@
 
 This is an example of a Golang REST API README
 
-## Makefile Commands
+# Application ENVs
+
+To find all necessary application envs, please take a look into *.env.example* file. To run locally, please copy all envs in *.env.example* into a new *.env* file
+
+# Makefile Commands
+
 ### Install Dependencies
 
     make install
